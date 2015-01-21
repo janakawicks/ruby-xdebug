@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+require 'ruby-xdebug'
+
+LIST = [ 'exit', 'step_into' ].sort
+
+comp = proc { |s| LIST.grep( /^#{Regexp.escape(s)}/ ) }
+#Readline.completion_append_character = " "
+Readline.completion_proc = comp
+
+x = Debugger.new()
+
+i = 0
+while line = Readline.readline("\n[#{i}] xdebug(main)> ", true)
+    i = i + 1
+    line.strip!
+    if line == 'step_into'
+        x.step_into
+    elsif line == 'exit'
+        break
+    end
+end
